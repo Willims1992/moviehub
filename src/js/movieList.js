@@ -1,7 +1,8 @@
 const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
 function movieCardTemplate(movie) {
-  const title = movie.title || movie.name || "Title unavailable";
+  const title =
+    movie.title || movie.name || "Title unavailable";
 
   const releaseDate =
     movie.release_date || movie.first_air_date || "";
@@ -19,18 +20,22 @@ function movieCardTemplate(movie) {
       ? movie.vote_average.toFixed(1)
       : "Not rated";
 
+  const mediaType = movie.media_type || "movie";
+
   return `
     <article class="movie-card">
-        <img src="${posterURL}" alt="Poster for ${title}" class="movie-card__poster" loading="lazy" />
+      <a href="/details.html?id=${movie.id}&type=${mediaType}" class="movie-card__link">
+        ${posterURL ? `<img src="${posterURL}" alt="${title} poster" class="movie-card__poster" />` : ""}
 
-      <div class="movie-card__content">
-        <h3 class="movie-card__title">${title}</h3>
+        <div class="movie-card__content">
+          <h3 class="movie-card__title">${title}</h3>
 
-        <div class="movie-card__information">
-          <span>${releaseYear}</span>
-          <span>⭐ ${rating}</span>
+          <div class="movie-card__information">
+            <span>${releaseYear}</span>
+            <span>⭐ ${rating}</span>
+          </div>
         </div>
-      </div>
+      </a>
     </article>
   `;
 }

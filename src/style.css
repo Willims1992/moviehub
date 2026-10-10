@@ -118,6 +118,76 @@ img {
   gap: 1.5rem;
 }
 
+.details-container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #f59e0b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.details-card {
+  display: grid;
+  grid-template-columns: minmax(240px, 350px) 1fr;
+  gap: 2rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  background-color: #1f2937;
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+}
+
+.details-card__poster {
+  width: 100%;
+  border-radius: 0.75rem;
+}
+
+.details-card__content h1 {
+  margin-top: 0;
+  color: #f59e0b;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.details-card__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.details-card__facts span {
+  padding: 0.5rem 0.75rem;
+  color: #ffffff;
+  background-color: #374151;
+  border-radius: 999px;
+}
+
+.details-card__content p {
+  color: #d1d5db;
+  line-height: 1.7;
+}
+
+@media (max-width: 700px) {
+  .details-card {
+    grid-template-columns: 1fr;
+  }
+
+  .details-card__poster {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
 /* Individual movie card */
 .movie-card {
   overflow: hidden;
@@ -168,6 +238,18 @@ img {
   color: #ffffff;
   background-color: #991b1b;
   border-radius: 0.5rem;
+}
+
+.movie-card__link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.movie-card__link:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: -3px;
 }
 
 /* Small-screen layout */

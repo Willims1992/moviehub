@@ -5,51 +5,72 @@ export default class ApiService {
   }
 
   async getTrendingMovies() {
-  const response = await fetch(
-    `${this.baseURL}/trending/movie/day`,
-    {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-        Accept: "application/json",
+    const response = await fetch(
+      `${this.baseURL}/trending/movie/day`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          Accept: "application/json",
+        },
       },
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `TMDb request failed with status ${response.status}`,
     );
+
+    if (!response.ok) {
+      throw new Error(
+        `TMDb request failed with status ${response.status}`,
+      );
+    }
+
+    const data = await response.json();
+    return data.results;
   }
 
-  const data = await response.json();
-  return data.results;
-  }
-  
   async searchContent(searchTerm) {
-  const encodedSearchTerm = encodeURIComponent(searchTerm);
+    const encodedSearchTerm =
+      encodeURIComponent(searchTerm);
 
-  const response = await fetch(
-    `${this.baseURL}/search/multi?query=${encodedSearchTerm}&include_adult=false`,
-    {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-        Accept: "application/json",
+    const response = await fetch(
+      `${this.baseURL}/search/multi?query=${encodedSearchTerm}&include_adult=false`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          Accept: "application/json",
+        },
       },
-    },
-  );
+    );
 
-  if (!response.ok) {
-    throw new Error(
-      `Search request failed with status ${response.status}`,
+    if (!response.ok) {
+      throw new Error(
+        `Search request failed with status ${response.status}`,
+      );
+    }
+
+    const data = await response.json();
+
+    return data.results.filter(
+      (item) =>
+        item.media_type === "movie" ||
+        item.media_type === "tv",
     );
   }
 
-  const data = await response.json();
+  async getContentDetails(id, mediaType) {
+    const response = await fetch(
+      `${this.baseURL}/${mediaType}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          Accept: "application/json",
+        },
+      },
+    );
 
-  return data.results.filter(
-    (item) =>
-      item.media_type === "movie" ||
-      item.media_type === "tv",
-  );
- }
+    if (!response.ok) {
+      throw new Error(
+        `Details request failed with status ${response.status}`,
+      );
+    }
+
+    return response.json();
+  }
 }

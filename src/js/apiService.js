@@ -73,4 +73,25 @@ export default class ApiService {
 
     return response.json();
   }
+
+  async getContentVideos(id, mediaType) {
+  const response = await fetch(
+    `${this.baseURL}/${mediaType}/${id}/videos?language=en-US`,
+    {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: "application/json",
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Videos request failed with status ${response.status}`,
+    );
+  }
+
+  const data = await response.json();
+  return data.results;
+ }
 }

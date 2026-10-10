@@ -15,7 +15,7 @@ const mediaType = parameters.get("type");
 
 const api = new ApiService();
 
-function detailsTemplate(content) {
+function detailsTemplate(content, videos) {
   const title =
     content.title ||
     content.name ||
@@ -46,6 +46,33 @@ function detailsTemplate(content) {
   const posterURL = content.poster_path
     ? `${imageBaseURL}${content.poster_path}`
     : "/images/poster-placeholder.svg";
+  
+  const officialTrailer = videos.find(
+  (video) =>
+    video.site === "YouTube" &&
+    video.type === "Trailer" &&
+    video.official === true,
+);
+
+const anyYouTubeTrailer =
+  officialTrailer ||
+  videos.find(
+    (video) =>
+      video.site === "YouTube" &&
+      video.type === "Trailer",
+  );
+
+const trailerButton = anyYouTubeTrailer
+  ? `
+     <a href="https://www.youtube.com/watch?v=${anyYouTubeTrailer.key}" target="_blank" class="trailer-button">
+        ▶ Watch Trailer
+      </a>
+    `
+  : `
+      <p class="trailer-unavailable">
+        Trailer unavailable
+      </p>
+    `;
 
   return `
     <main class="details-container">
@@ -64,6 +91,8 @@ function detailsTemplate(content) {
             <span>${releaseDate}</span>
             <span>${runtime}</span>
           </div>
+
+          ${trailerButton}
 
           <p>
             <strong>Genres:</strong>
@@ -112,13 +141,20 @@ async function loadContentDetails() {
   `;
 
   try {
-    const content = await api.getContentDetails(
-      contentId,
-      mediaType,
-    );
+    //const content = await api.getContentDetails(
+     // contentId,
+     // mediaType,
+    //);
 
-    detailsContainer.innerHTML =
-      detailsTemplate(content);
+    //detailsContainer.innerHTML =
+    //detailsTemplate(content);
+    const [content, videos] = await Promise.all([
+      api.getContentDetails(contentId, mediaType),
+      api.getContentVideos(contentId, mediaType),
+   ]);
+
+   detailsContainer.innerHTML =
+     detailsTemplate(content, videos);
   } catch (error) {
     console.error(
       "Unable to load content details:",

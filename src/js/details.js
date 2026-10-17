@@ -1,3 +1,4 @@
+import { addFavorite } from "./storage.js";
 import "../style.css";
 import ApiService from "./apiService.js";
 
@@ -94,6 +95,13 @@ const trailerButton = anyYouTubeTrailer
 
           ${trailerButton}
 
+          <button
+            id="favoriteButton"
+             class="favorite-button"
+            >
+            ❤ Add to Favorites
+          </button>
+
           <p>
             <strong>Genres:</strong>
             ${genres}
@@ -154,7 +162,30 @@ async function loadContentDetails() {
    ]);
 
    detailsContainer.innerHTML =
-     detailsTemplate(content, videos);
+      detailsTemplate(content, videos);
+    
+    const favoriteButton =
+  document.querySelector(
+    "#favoriteButton",
+  );
+
+favoriteButton?.addEventListener(
+  "click",
+  () => {
+    addFavorite({
+      id: content.id,
+      title:
+        content.title ||
+        content.name,
+      poster_path:
+        content.poster_path,
+      mediaType,
+    });
+
+    favoriteButton.textContent =
+      "✓ Added";
+  },
+);
   } catch (error) {
     console.error(
       "Unable to load content details:",

@@ -3,6 +3,8 @@ export default class ApiService {
     this.baseURL = "https://api.themoviedb.org/3";
     this.token = import.meta.env.VITE_TMDB_TOKEN;
     console.log("TMDB TOKEN:", this.token);
+    console.log("TMDB TOKEN VALUE:", this.token);
+console.log("TMDB TOKEN TYPE:", typeof this.token);
   }
 
   async getTrendingMovies() {

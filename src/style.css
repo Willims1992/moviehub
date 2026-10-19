@@ -310,9 +310,15 @@ img {
 }
 
 .movie-card {
-  background: #1e1e1e;
-  border-radius: 10px;
+  background: #1e293b;
+  border-radius: 16px;
   overflow: hidden;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,.3);
+}
+
+.movie-card:hover {
+  transform: translateY(-8px);
 }
 
 .movie-card img {
